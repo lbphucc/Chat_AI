@@ -1,27 +1,32 @@
-import { Button } from "@/components/ui/button";
+import { UserButton, SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    // BỘ KHUNG CĂN GIỮA:
-    // 1. h-screen:       Chiều cao bằng đúng màn hình (100vh)
-    // 2. flex:           Sử dụng Flexbox
-    // 3. items-center:   Căn giữa theo chiều ngang (trục phụ của flex-col)
-    // 4. justify-center: Căn giữa theo chiều dọc (trục chính của flex-col)
-    // 5. flex-col:       Xếp các phần tử dọc (chữ ở trên, nút ở dưới)
-    
-    <div className="h-screen flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center h-screen gap-6">
+      <h1 className="text-3xl font-bold text-blue-600">Chat AI Portfolio</h1>
       
-      {/* Dòng chữ cần căn giữa */}
-      <h1 className="text-4xl font-bold text-blue-600 text-center">
-        Hello Chat AI
-      </h1>
+      {/* 1. Khu vực hiển thị khi CHƯA đăng nhập */}
+      <SignedOut>
+        <p className="text-gray-500">Bạn chưa đăng nhập. Hãy bấm nút dưới đây:</p>
+        <SignInButton mode="modal">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+            Đăng nhập ngay
+          </button>
+        </SignInButton>
+      </SignedOut>
 
-      {/* Các nút bấm (nếu có) */}
-      <div className="flex gap-2">
-        <Button>Click Me</Button>
-        <Button variant="outline">Settings</Button>
-      </div>
+      {/* 2. Khu vực hiển thị khi ĐÃ đăng nhập */}
+      <SignedIn>
+        <p className="text-green-600 font-semibold">Xin chào! Bạn đã đăng nhập thành công.</p>
+        
+        {/* Nút tròn tròn chứa Avatar user, bấm vào là hiện menu logout */}
+        <UserButton />
 
+        <Link href="/dashboard" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+          Đi tới Dashboard
+        </Link>
+      </SignedIn>
     </div>
-  )
+  );
 }
